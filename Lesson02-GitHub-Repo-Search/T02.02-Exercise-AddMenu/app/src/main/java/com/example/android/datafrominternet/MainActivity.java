@@ -15,10 +15,15 @@
  */
 package com.example.android.datafrominternet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,22 +45,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Do 2 - 7 in menu.xml ///////////////////////////////////////////////////////////////////////
-    // TODO (2) Create a menu in xml called main.xml
-    // TODO (3) Add one menu item to your menu
-    // TODO (4) Give the menu item an id of @+id/action_search
-    // TODO (5) Set the orderInCategory to 1
-    // TODO (6) Show this item if there is room (use app:showAsAction, not android:showAsAction)
-    // TODO (7) Set the title to the search string ("Search") from strings.xml
+    // TODO (x2) Create a menu in xml called main.xml
+    // TODO (x3) Add one menu item to your menu
+    // TODO (x4) Give the menu item an id of @+id/action_search
+    // TODO (x5) Set the orderInCategory to 1
+    // TODO (x6) Show this item if there is room (use app:showAsAction, not android:showAsAction)
+    // TODO (x7) Set the title to the search string ("Search") from strings.xml
     // Do 2 - 7 in menu.xml ///////////////////////////////////////////////////////////////////////
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
 
-    // TODO (8) Override onCreateOptionsMenu
-    // TODO (9) Within onCreateOptionsMenu, use getMenuInflater().inflate to inflate the menu
-    // TODO (10) Return true to display your menu
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-    // TODO (11) Override onOptionsItemSelected
-    // TODO (12) Within onOptionsItemSelected, get the ID of the item that was selected
-    // TODO (13) If the item's ID is R.id.action_search, show a Toast and return true to tell Android that you've handled this menu click
-    // TODO (14) Don't forgot to call .show() on your Toast
-    // TODO (15) If you do NOT handle the menu click, return super.onOptionsItemSelected to let Android handle the menu click
+    // TODO (x8) Override onCreateOptionsMenu
+    // TODO (x9) Within onCreateOptionsMenu, use getMenuInflater().inflate to inflate the menu
+    // TODO (x10) Return true to display your menu
+
+    public boolean onOptionsItemSelected(MenuItem item) {// Al pulsar un item del Menu
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Toast.makeText(this, "You just hit search", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // TODO (x11) Override onOptionsItemSelected
+    // TODO (x12) Within onOptionsItemSelected, get the ID of the item that was selected
+    // TODO (x13) If the item's ID is R.id.action_search, show a Toast and return true to tell Android that you've handled this menu click
+    // TODO (x14) Don't forgot to call .show() on your Toast
+    // TODO (x15) If you do NOT handle the menu click, return super.onOptionsItemSelected to let Android handle the menu click
 }

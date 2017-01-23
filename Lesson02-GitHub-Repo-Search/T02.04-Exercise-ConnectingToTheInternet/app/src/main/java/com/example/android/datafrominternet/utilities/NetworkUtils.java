@@ -78,12 +78,7 @@ public class NetworkUtils {
             Scanner scanner = new Scanner(in);
             scanner.useDelimiter("\\A");
 
-            boolean hasInput = scanner.hasNext();
-            if (hasInput) {
-                return scanner.next();
-            } else {
-                return null;
-            }
+            return scanner.hasNext() ? scanner.next() : null;
         } finally {
             urlConnection.disconnect();
         }
