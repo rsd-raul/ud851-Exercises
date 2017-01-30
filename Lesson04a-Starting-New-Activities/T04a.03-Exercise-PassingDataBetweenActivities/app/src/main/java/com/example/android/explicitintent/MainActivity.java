@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void onClick(View v) {
-                // TODO (1) Retrieve the text from the EditText and store it in a variable
+
+                // TODO (x1) Retrieve the text from the EditText and store it in a variable
+                EditText entryEditText = (EditText) findViewById(R.id.et_text_entry);
 
                 /*
                  * Storing the Context in a variable in this case is redundant since we could have
@@ -73,8 +75,9 @@ public class MainActivity extends AppCompatActivity {
                  */
                 Intent startChildActivityIntent = new Intent(context, destinationActivity);
 
-                // TODO (2) Use the putExtra method to put the String from the EditText in the Intent
-
+                // TODO (x2) Use the putExtra method to put the String from the EditText in the Intent
+                String userText = entryEditText.getText().toString();
+                startChildActivityIntent.putExtra(Constants.TEXT_SENT+"", userText);
                 /*
                  * Once the Intent has been created, we can use Activity's method, "startActivity"
                  * to start the ChildActivity.

@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         openWebPage(urlAsString);
     }
 
+
+    private final String BASE_MAPS_URL = "geo:0,0", PARAM_QUERY = "q";
     /**
      * This method is called when the Open Location in Map button is clicked. It will open the
      * a map to the location represented by the variable addressString using implicit Intents.
@@ -48,12 +51,19 @@ public class MainActivity extends AppCompatActivity {
      * @param v Button that was clicked.
      */
     public void onClickOpenAddressButton(View v) {
-        // TODO (5) Store an address in a String
+        // TODO (x5) Store an address in a String
+        String address = "Graham Bell 1, 2G";
 
-        // TODO (6) Use Uri.Builder with the appropriate scheme and query to form the Uri for the address
+        // TODO (x6) Use Uri.Builder with the appropriate scheme and query to form the Uri for the address
+        Uri builtUri = new Uri.Builder()
+                .scheme("geo")
+                .path("0,0")
+                .query(address)
+                .build();
 
-        // TODO (7) Replace the Toast with a call to showMap, passing in the Uri from the previous step
-        Toast.makeText(this, "TODO: Open a map when this button is clicked", Toast.LENGTH_SHORT).show();
+        Log.i("MainActivity", "URI built: " + builtUri.toString());
+        // TODO (x7) Replace the Toast with a call to showMap, passing in the Uri from the previous step
+        showMap(builtUri);
     }
 
     /**
@@ -111,14 +121,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    // TODO (1) Create a method called showMap with a Uri as the single parameter
-    // Do steps 2 - 4 within the showMap method
-        // TODO (2) Create an Intent with action type, Intent.ACTION_VIEW
-
-        // TODO (3) Set the data of the Intent to the Uri passed into this method
-
-        // TODO (4) Verify that this Intent can be launched and then call startActivity
-
-
+    // TODO (x1) Create a method called showMap with a Uri as the single parameter
+    public void showMap(Uri geoLocation) {
+        // TODO (x2) Create an Intent with action type, Intent.ACTION_VIEW
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        // TODO (x3) Set the data of the Intent to the Uri passed into this method
+        intent.setData(geoLocation);
+        // TODO (x4) Verify that this Intent can be launched and then call startActivity
+        if (intent.resolveActivity(getPackageManager()) != null)
+            startActivity(intent);
+        else
+            Toast.makeText(this, "You need a Navigation app to open this!", Toast.LENGTH_LONG).show();
+    }
 }

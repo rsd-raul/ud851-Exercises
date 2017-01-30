@@ -15,4 +15,5 @@
 -->
 <resources>
     <string name="app_name">Implicit Intents</string>
+    <string name="choose_app">Choose an app</string>
 </resources>
