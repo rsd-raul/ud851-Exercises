@@ -59,4 +59,7 @@
     <!-- Value in SharedPreferences for green color option -->
     <string name="pref_color_green_value" translatable="false">green</string>
 
+
+    <string name="size_constraints">The size must be a decimal value between 0 (excl.) and 3 (incl.)</string>
+
 </resources>

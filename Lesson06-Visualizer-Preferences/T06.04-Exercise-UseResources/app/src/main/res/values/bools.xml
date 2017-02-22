@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TODO (x2) Create a res->bools.xml file and create a boolean for this default value -->
+    <bool name="bass_pref_default" >true</bool>
+
+</resources>

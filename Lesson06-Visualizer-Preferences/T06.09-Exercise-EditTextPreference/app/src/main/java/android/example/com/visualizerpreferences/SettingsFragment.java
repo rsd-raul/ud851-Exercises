@@ -37,9 +37,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         // Add visualizer preferences, defined in the XML file in res->xml->pref_visualizer
         addPreferencesFromResource(R.xml.pref_visualizer);
 
-        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
         PreferenceScreen prefScreen = getPreferenceScreen();
+        SharedPreferences sharedPreferences = prefScreen.getSharedPreferences();
         int count = prefScreen.getPreferenceCount();
+
+        prefScreen.findPreference(getString(R.string.pref_size_key))
+                .setOnPreferenceChangeListener(numberCheckListener);
 
         // Go through all of the preferences, and set up their preference summary.
         for (int i = 0; i < count; i++) {
@@ -52,6 +55,22 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             }
         }
     }
+
+    /**
+     * Check whether or not the string typed is a float, if it's not, notify the user and don't save
+     *
+     */
+    Preference.OnPreferenceChangeListener numberCheckListener = new Preference.OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            boolean isNumber = !newValue.toString().equals("")  &&  newValue.toString().matches("^([+-]?\\d*\\.?\\d*)$");
+            if( !isNumber ) {
+                String alert = getString(R.string.not_a_number);
+                Toast.makeText(SettingsFragment.this.getContext(), alert, Toast.LENGTH_SHORT).show();
+            }
+            return isNumber;
+        }
+    };
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -73,7 +92,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
      * @param value      The value that the preference was updated to
      */
     private void setPreferenceSummary(Preference preference, String value) {
-        // TODO (3) Don't forget to add code here to properly set the summary for an EditTextPreference
         if (preference instanceof ListPreference) {
             // For list preferences, figure out the label of the selected value
             ListPreference listPreference = (ListPreference) preference;
@@ -82,6 +100,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 // Set the summary to that label
                 listPreference.setSummary(listPreference.getEntries()[prefIndex]);
             }
+        // TODO (x3) Don't forget to add code here to properly set the summary for an EditTextPreference
+        }else if (preference instanceof EditTextPreference){
+            EditTextPreference editTextPreference = (EditTextPreference) preference;
+            editTextPreference.setSummary(editTextPreference.getText());
         }
     }
     

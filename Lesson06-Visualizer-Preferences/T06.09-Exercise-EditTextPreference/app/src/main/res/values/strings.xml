@@ -48,4 +48,10 @@
 
     <!-- Value in SharedPreferences for green color option -->
     <string name="pref_color_green_value" translatable="false">green</string>
+
+    <string name="pref_size_key" translatable="false">size_pref</string>
+    <string name="pref_size_default" translatable="false">1</string>
+    <string name="pref_size_label">Set a size for the figures</string>
+
+    <string name="not_a_number">The input needs to be a number (eg: 0.2)</string>
 </resources>
