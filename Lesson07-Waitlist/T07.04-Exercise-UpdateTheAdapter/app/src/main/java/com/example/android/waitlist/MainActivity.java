@@ -15,8 +15,6 @@ import com.example.android.waitlist.data.WaitlistDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private GuestListAdapter mAdapter;
-
     private SQLiteDatabase mDb;
 
 
@@ -49,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO (10) Pass the entire cursor to the adapter rather than just the count
         // Create an adapter for that cursor to display the data
-        mAdapter = new GuestListAdapter(this, cursor.getCount());
+        GuestListAdapter adapter = new GuestListAdapter(this, cursor);
 
         // Link the adapter to the RecyclerView
-        waitlistRecyclerView.setAdapter(mAdapter);
+        waitlistRecyclerView.setAdapter(adapter);
 
     }
 

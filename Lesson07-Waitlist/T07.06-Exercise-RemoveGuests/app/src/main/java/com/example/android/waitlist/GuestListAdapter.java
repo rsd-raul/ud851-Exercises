@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.example.android.waitlist.data.WaitlistContract;
 
 
-public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.GuestViewHolder> {
+class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.GuestViewHolder> {
 
     // Holds on to the cursor to display the waitlist
     private Cursor mCursor;
@@ -22,7 +22,7 @@ public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.Gues
      * @param context the calling context/activity
      * @param cursor the db cursor with waitlist data to display
      */
-    public GuestListAdapter(Context context, Cursor cursor) {
+    GuestListAdapter(Context context, Cursor cursor) {
         this.mContext = context;
         this.mCursor = cursor;
     }
@@ -44,13 +44,15 @@ public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.Gues
         // Update the view holder with the information needed to display
         String name = mCursor.getString(mCursor.getColumnIndex(WaitlistContract.WaitlistEntry.COLUMN_GUEST_NAME));
         int partySize = mCursor.getInt(mCursor.getColumnIndex(WaitlistContract.WaitlistEntry.COLUMN_PARTY_SIZE));
-        // TODO (6) Retrieve the id from the cursor and
+        // TODO (x6) Retrieve the id from the cursor and
+        long id = mCursor.getLong(mCursor.getColumnIndex(WaitlistContract.WaitlistEntry._ID));
 
         // Display the guest name
         holder.nameTextView.setText(name);
         // Display the party count
         holder.partySizeTextView.setText(String.valueOf(partySize));
-        // TODO (7) Set the tag of the itemview in the holder to the id
+        // TODO (x7) Set the tag of the itemview in the holder to the id
+        holder.itemView.setTag(id);
     }
 
 
@@ -65,7 +67,7 @@ public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.Gues
      *
      * @param newCursor the new cursor that will replace the existing one
      */
-    public void swapCursor(Cursor newCursor) {
+    void swapCursor(Cursor newCursor) {
         // Always close the previous mCursor first
         if (mCursor != null) mCursor.close();
         mCursor = newCursor;
@@ -92,7 +94,7 @@ public class GuestListAdapter extends RecyclerView.Adapter<GuestListAdapter.Gues
          * @param itemView The View that you inflated in
          *                 {@link GuestListAdapter#onCreateViewHolder(ViewGroup, int)}
          */
-        public GuestViewHolder(View itemView) {
+        GuestViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             partySizeTextView = (TextView) itemView.findViewById(R.id.party_size_text_view);
