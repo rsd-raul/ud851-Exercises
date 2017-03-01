@@ -26,7 +26,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import static com.example.android.todolist.data.TaskContract.TaskEntry.TABLE_NAME;
+import static com.example.android.todolist.data.TaskContract.*;
 
 // Verify that TaskContentProvider extends from ContentProvider and implements required methods
 public class TaskContentProvider extends ContentProvider {
@@ -94,9 +94,9 @@ public class TaskContentProvider extends ContentProvider {
             case TASKS:
                 // Insert new values into the database
                 // Inserting values into tasks table
-                long id = db.insert(TABLE_NAME, null, values);
+                long id = db.insert(TaskEntry.TABLE_NAME, null, values);
                 if ( id > 0 ) {
-                    returnUri = ContentUris.withAppendedId(TaskContract.TaskEntry.CONTENT_URI, id);
+                    returnUri = ContentUris.withAppendedId(TaskEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
@@ -120,15 +120,32 @@ public class TaskContentProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
 
-        // TODO (1) Get access to underlying database (read-only for query)
+        // TODO (x1) Get access to underlying database (read-only for query)
+        final SQLiteDatabase db = mTaskDbHelper.getReadableDatabase();
 
-        // TODO (2) Write URI match code and set a variable to return a Cursor
+        // TODO (x2) Write URI match code and set a variable to return a Cursor
+        int uriMatch = sUriMatcher.match(uri);
 
-        // TODO (3) Query for the tasks directory and write a default case
+        // TODO (x3) Query for the tasks directory and write a default case
+        Cursor response;
 
-        // TODO (4) Set a notification URI on the Cursor and return that Cursor
+        switch(uriMatch){
+            case TASKS:
+                response = db.query(TaskEntry.TABLE_NAME, projection, selection, selectionArgs,
+                                        null, null, sortOrder);
+                break;
+//            case TASK_WITH_ID:
+//                break;
+            default:
+                throw new UnsupportedOperationException("Method not implemented for uri: " + uri);
+        }
 
-        throw new UnsupportedOperationException("Not yet implemented");
+        // TODO (x4) Set a notification URI on the Cursor and return that Cursor
+        Context context = getContext();
+        if(context != null && response != null)
+            response.setNotificationUri(context.getContentResolver(), uri);
+
+        return response;
     }
 
 

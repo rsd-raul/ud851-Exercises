@@ -139,6 +139,22 @@ public class TaskContentProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
+            case TASK_WITH_ID:
+                String id = uri.getPathSegments().get(1);
+
+                // Selection is the _ID column = ?, and the Selection args = the row ID from the URI
+                String mSelection = "_id=?";
+                String[] mSelectionArgs = new String[]{id};
+
+                // Construct a query as you would normally, passing in the selection/args
+                retCursor =  db.query(TABLE_NAME,
+                        projection,
+                        mSelection,
+                        mSelectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
             // Default exception
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -156,14 +172,29 @@ public class TaskContentProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
 
-        // TODO (1) Get access to the database and write URI matching code to recognize a single item
+        if(sUriMatcher.match(uri) != TASK_WITH_ID)
+            throw new UnsupportedOperationException("delete: Unknown uri: " + uri);
 
-        // TODO (2) Write the code to delete a single row of data
+        // TODO (x1) Get access to the database and write URI matching code to recognize a single item
+        SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
+        // TODO (x2) Write the code to delete a single row of data
         // [Hint] Use selections to delete an item by its row ID
+        String id = uri.getPathSegments().get(1);
 
-        // TODO (3) Notify the resolver of a change and return the number of items deleted
+        // Selection is the _ID column = ?, and the Selection args = the row ID from the URI
+        String mSelection = "_id=?";
+        String[] mSelectionArgs = new String[]{id};
 
-        throw new UnsupportedOperationException("Not yet implemented");
+        // Construct a query as you would normally, passing in the selection/args
+        int itemsDeleted =  db.delete(TABLE_NAME,
+                mSelection, mSelectionArgs);
+
+        // TODO (x3) Notify the resolver of a change and return the number of items deleted
+        Context context = getContext();
+        if(context != null && itemsDeleted != 0)
+            context.getContentResolver().notifyChange(uri, null);
+
+        return itemsDeleted;
     }
 
 
