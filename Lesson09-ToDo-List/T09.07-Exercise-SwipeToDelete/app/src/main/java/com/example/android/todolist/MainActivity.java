@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 // TODO (x1) Construct the URI for the item to delete
                 //[Hint] Use getTag (from the adapter code) to get the id of the swiped item
-                String id = String.valueOf((long) viewHolder.itemView.getTag());
+                String id = String.valueOf((int) viewHolder.itemView.getTag());
                 Uri uri = TaskContract.TaskEntry.CONTENT_URI.buildUpon().appendPath(id).build();
 
                 // TODO (x2) Delete a single row of data using a ContentResolver
