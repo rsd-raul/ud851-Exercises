@@ -15,6 +15,7 @@
  */
 package com.example.android.background;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -23,6 +24,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.android.background.sync.*;
 import com.example.android.background.utilities.PreferenceUtilities;
 
 public class MainActivity extends AppCompatActivity implements
@@ -39,16 +42,16 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /** Get the views **/
+        /* Get the views */
         mWaterCountDisplay = (TextView) findViewById(R.id.tv_water_count);
         mChargingCountDisplay = (TextView) findViewById(R.id.tv_charging_reminder_count);
         mChargingImageView = (ImageView) findViewById(R.id.iv_power_increment);
 
-        /** Set the original values in the UI **/
+        /* Set the original values in the UI */
         updateWaterCount();
         updateChargingReminderCount();
 
-        /** Setup the shared preference listener **/
+        /* Setup the shared preference listener */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
     }
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void updateWaterCount() {
         int waterCount = PreferenceUtilities.getWaterCount(this);
-        mWaterCountDisplay.setText(waterCount+"");
+        mWaterCountDisplay.setText(String.valueOf(waterCount));
     }
 
     /**
@@ -79,15 +82,19 @@ public class MainActivity extends AppCompatActivity implements
         if (mToast != null) mToast.cancel();
         mToast = Toast.makeText(this, R.string.water_chug_toast, Toast.LENGTH_SHORT);
         mToast.show();
-        // TODO (15) Create an explicit intent for WaterReminderIntentService
-        // TODO (16) Set the action of the intent to ACTION_INCREMENT_WATER_COUNT
-        // TODO (17) Call startService and pass the explicit intent you just created
+
+        // TODO (x15) Create an explicit intent for WaterReminderIntentService
+        Intent service = new Intent(this, WaterReminderIntentService.class);
+        // TODO (x16) Set the action of the intent to ACTION_INCREMENT_WATER_COUNT
+        service.setAction(ReminderTasks.ACTION_INCREMENT_WATER_COUNT);
+        // TODO (x17) Call startService and pass the explicit intent you just created
+        startService(service);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /** Cleanup the shared preference listener **/
+        /* Cleanup the shared preference listener */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.unregisterOnSharedPreferenceChangeListener(this);
     }
